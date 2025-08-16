@@ -1,0 +1,74 @@
+{
+    "name": "copilot-terminal-master-mcp",
+    "version": "1.0.0",
+    "description": "🚀 Ultra-Creative MCP Server for Intelligent Terminal Management - Copilot Edition",
+    "main": "dist/index.js",
+    "type": "module",
+    "scripts": {
+        "build": "tsc",
+        "start": "node dist/index.js",
+        "dev": "tsx watch src/index.ts",
+        "clean": "rimraf dist",
+        "lint": "eslint src --ext .ts",
+        "test": "node test-mcp.js",
+        "test:full": "vitest",
+        "install-vscode": "node install-vscode.js",
+        "package": "npm run build && npm pack"
+    },
+    "bin": {
+        "copilot-terminal-master": "./dist/index.js"
+    },
+    "keywords": [
+        "mcp",
+        "terminal",
+        "copilot",
+        "automation",
+        "development",
+        "ai",
+        "intelligent",
+        "creative"
+    ],
+    "author": "Super Agent Ultra 2025",
+    "license": "MIT",
+    "dependencies": {
+        "@modelcontextprotocol/sdk": "^0.5.0",
+        "chalk": "^5.5.0",
+        "commander": "^12.0.0",
+        "cross-spawn": "^7.0.3",
+        "detect-port": "^1.6.1",
+        "emoji-regex": "^10.3.0",
+        "find-process": "^1.4.11",
+        "glob": "^10.3.10",
+        "nanoid": "^5.1.5",
+        "node-pty": "^1.0.0",
+        "ps-list": "^8.1.1",
+        "strip-ansi": "^7.1.0",
+        "tree-kill": "^1.2.2",
+        "winston": "^3.11.0",
+        "ws": "^8.16.0",
+        "zod": "^3.22.4"
+    },
+    "devDependencies": {
+        "@types/cross-spawn": "^6.0.6",
+        "@types/detect-port": "^1.3.5",
+        "@types/node": "^20.11.0",
+        "@types/ws": "^8.5.10",
+        "@typescript-eslint/eslint-plugin": "^6.19.0",
+        "@typescript-eslint/parser": "^6.19.0",
+        "eslint": "^8.56.0",
+        "rimraf": "^5.0.5",
+        "tsx": "^4.7.0",
+        "typescript": "^5.3.3",
+        "vitest": "^1.2.0"
+    },
+    "engines": {
+        "node": ">=18.0.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/copilot/terminal-master-mcp"
+    },
+    "publishConfig": {
+        "access": "public"
+    }
+}

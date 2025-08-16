@@ -1,0 +1,76 @@
+# 🗂️ Git Ignore for Copilot Terminal Master MCP Server
+
+# 📦 Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 🏗️ Build outputs
+dist/
+build/
+*.tsbuildinfo
+
+# 🔧 Environment & Config
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# 🧪 Test coverage
+coverage/
+.nyc_output/
+*.lcov
+
+# 📊 Logs
+logs/
+*.log
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# ⚡ Runtime data
+.npm
+.eslintcache
+.node_repl_history
+
+# 🔗 Optional npm cache directory
+.npm
+
+# 🎯 VS Code specific
+.vscode/settings.json
+.vscode/launch.json
+.vscode/extensions.json
+.vscode-terminal-bridge/
+
+# 📱 OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# 🛠️ IDE
+.idea/
+*.swp
+*.swo
+*~
+
+# 🔐 Security
+*.pem
+*.key
+*.cert
+
+# 🚀 Deployment
+.deployment
+.deploymentcache
+
+# 📋 Temporary
+*.tmp
+*.temp
+temp/
+tmp/

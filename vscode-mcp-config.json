@@ -1,0 +1,18 @@
+{
+    "servers": {
+        "copilot-terminal-tools": {
+            "command": "node",
+            "args": [
+                "c:/jeanluc/vscode_mcpserver/dist/index.js"
+            ],
+            "env": {
+                "NODE_ENV": "production",
+                "MCP_MODE": "true",
+                "LOG_LEVEL": "error",
+                "MAX_TERMINALS": "20",
+                "COMMAND_TIMEOUT": "30000"
+            },
+            "type": "stdio"
+        }
+    }
+}

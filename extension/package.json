@@ -1,8 +1,8 @@
 {
     "name": "terminal-orchestrator",
     "displayName": "Terminal Orchestrator",
-    "description": "Professional terminal management for VS Code with 29 advanced tools - GitHub Copilot integration",
-    "version": "1.2.0",
+    "description": "Professional terminal management for VS Code with 30 advanced tools + workspace diagnostics - GitHub Copilot integration",
+    "version": "1.3.0",
     "publisher": "LUX-TECH",
     "author": "Jean-Luc KOUMAGLO <jeanlukou@gmail.com>",
     "license": "MIT",
@@ -656,6 +656,27 @@
                     "required": [
                         "name"
                     ]
+                }
+            },
+            {
+                "name": "orchestrator_getWorkspaceProblems",
+                "displayName": "Workspace Diagnostics",
+                "userDescription": "Analyzes workspace for errors, warnings, and other problems",
+                "modelDescription": "Retrieves all diagnostic information (errors, warnings, info, hints) from the VS Code workspace including file paths, line numbers, error messages, and severity levels.",
+                "canBeReferencedInPrompt": true,
+                "toolReferenceName": "getWorkspaceProblems",
+                "tags": [
+                    "diagnostic",
+                    "errors",
+                    "warnings",
+                    "workspace",
+                    "problems",
+                    "analysis"
+                ],
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {},
+                    "required": []
                 }
             }
         ]

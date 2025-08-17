@@ -2211,6 +2211,169 @@ ${result.note}`;
 }
 
 // ====================================
+// DIAGNOSTIC TOOLS - Error and Warning Detection
+// ====================================
+
+interface GetWorkspaceProblemsParams { }
+
+export class GetWorkspaceProblemsTool extends BaseTool<GetWorkspaceProblemsParams> {
+    public readonly ID = 'orchestrator_getWorkspaceProblems';
+
+    prepareInvocation(options: vscode.LanguageModelToolInvocationPrepareOptions<GetWorkspaceProblemsParams>, token: vscode.CancellationToken): vscode.ProviderResult<vscode.PreparedToolInvocation> {
+        return { invocationMessage: 'Analyzing workspace for errors and warnings...' };
+    }
+
+    async invoke(options: vscode.LanguageModelToolInvocationOptions<GetWorkspaceProblemsParams>, token: vscode.CancellationToken): Promise<vscode.LanguageModelToolResult> {
+        try {
+            const diagnostics = vscode.languages.getDiagnostics();
+            const problems = [];
+            let errorCount = 0;
+            let warningCount = 0;
+            let infoCount = 0;
+            let hintCount = 0;
+
+            for (const [uri, fileDiagnostics] of diagnostics) {
+                if (fileDiagnostics.length > 0) {
+                    for (const diagnostic of fileDiagnostics) {
+                        const problem = {
+                            file: uri.fsPath,
+                            fileName: uri.fsPath.split('\\').pop() || uri.fsPath.split('/').pop() || 'unknown',
+                            line: diagnostic.range.start.line + 1, // VS Code uses 0-based indexing
+                            column: diagnostic.range.start.character + 1,
+                            endLine: diagnostic.range.end.line + 1,
+                            endColumn: diagnostic.range.end.character + 1,
+                            message: diagnostic.message,
+                            severity: this.getSeverityText(diagnostic.severity),
+                            source: diagnostic.source || 'Unknown',
+                            code: diagnostic.code ? String(diagnostic.code) : 'No code'
+                        };
+
+                        problems.push(problem);
+
+                        // Count by severity
+                        switch (diagnostic.severity) {
+                            case vscode.DiagnosticSeverity.Error:
+                                errorCount++;
+                                break;
+                            case vscode.DiagnosticSeverity.Warning:
+                                warningCount++;
+                                break;
+                            case vscode.DiagnosticSeverity.Information:
+                                infoCount++;
+                                break;
+                            case vscode.DiagnosticSeverity.Hint:
+                                hintCount++;
+                                break;
+                        }
+                    }
+                }
+            }
+
+            // Generate summary
+            const totalProblems = problems.length;
+            const filesWithProblems = new Set(problems.map(p => p.file)).size;
+
+            let resultText = `Workspace Diagnostics Summary:
+==========================================
+Total Problems: ${totalProblems}
+Files Affected: ${filesWithProblems}
+
+Severity Breakdown:
+- Errors: ${errorCount}
+- Warnings: ${warningCount}
+- Info: ${infoCount}
+- Hints: ${hintCount}
+
+`;
+
+            if (problems.length === 0) {
+                resultText += `No problems found in the workspace!`;
+            } else {
+                // Group by severity for better readability
+                const errorProblems = problems.filter(p => p.severity === 'Error');
+                const warningProblems = problems.filter(p => p.severity === 'Warning');
+                const infoProblems = problems.filter(p => p.severity === 'Information');
+                const hintProblems = problems.filter(p => p.severity === 'Hint');
+
+                // Show errors first (most important)
+                if (errorProblems.length > 0) {
+                    resultText += `ERRORS (${errorProblems.length}):
+===================
+`;
+                    errorProblems.slice(0, 10).forEach((problem, index) => {
+                        resultText += `${index + 1}. ${problem.fileName}:${problem.line}:${problem.column}
+   Source: ${problem.source}
+   Message: ${problem.message}
+   Code: ${problem.code}
+   Path: ${problem.file}
+
+`;
+                    });
+                    if (errorProblems.length > 10) {
+                        resultText += `... and ${errorProblems.length - 10} more errors\n\n`;
+                    }
+                }
+
+                // Show warnings
+                if (warningProblems.length > 0) {
+                    resultText += `WARNINGS (${warningProblems.length}):
+=====================
+`;
+                    warningProblems.slice(0, 10).forEach((problem, index) => {
+                        resultText += `${index + 1}. ${problem.fileName}:${problem.line}:${problem.column}
+   Source: ${problem.source}
+   Message: ${problem.message}
+   Code: ${problem.code}
+   Path: ${problem.file}
+
+`;
+                    });
+                    if (warningProblems.length > 10) {
+                        resultText += `... and ${warningProblems.length - 10} more warnings\n\n`;
+                    }
+                }
+
+                // Show info and hints (condensed)
+                if (infoProblems.length > 0) {
+                    resultText += `INFORMATION (${infoProblems.length}): Available but truncated for brevity\n`;
+                }
+                if (hintProblems.length > 0) {
+                    resultText += `HINTS (${hintProblems.length}): Available but truncated for brevity\n`;
+                }
+
+                resultText += `
+Recommendation: Focus on resolving errors first, then warnings.
+Use 'Go to Problem' (F8) in VS Code to navigate through issues.`;
+            }
+
+            return new vscode.LanguageModelToolResult([
+                new vscode.LanguageModelTextPart(resultText)
+            ]);
+
+        } catch (error) {
+            return new vscode.LanguageModelToolResult([
+                new vscode.LanguageModelTextPart(`Error analyzing workspace problems: ${error instanceof Error ? error.message : String(error)}`)
+            ]);
+        }
+    }
+
+    private getSeverityText(severity: vscode.DiagnosticSeverity): string {
+        switch (severity) {
+            case vscode.DiagnosticSeverity.Error:
+                return 'Error';
+            case vscode.DiagnosticSeverity.Warning:
+                return 'Warning';
+            case vscode.DiagnosticSeverity.Information:
+                return 'Information';
+            case vscode.DiagnosticSeverity.Hint:
+                return 'Hint';
+            default:
+                return 'Unknown';
+        }
+    }
+}
+
+// ====================================
 // EXTENSION ACTIVATION
 // ====================================
 
@@ -2267,13 +2430,16 @@ export function activate(context: vscode.ExtensionContext) {
             vscode.lm.registerTool(new GetTerminalOutputTool().ID, new GetTerminalOutputTool()),
             vscode.lm.registerTool(new SearchOutputTool().ID, new SearchOutputTool()),
             vscode.lm.registerTool(new SendCommandWithOutputTool().ID, new SendCommandWithOutputTool()),
-            vscode.lm.registerTool(new TailOutputTool().ID, new TailOutputTool())
+            vscode.lm.registerTool(new TailOutputTool().ID, new TailOutputTool()),
+
+            // Diagnostic tools (30)
+            vscode.lm.registerTool(new GetWorkspaceProblemsTool().ID, new GetWorkspaceProblemsTool())
         ];
 
         context.subscriptions.push(...tools);
 
         console.log(` Terminal Orchestrator activé avec ${tools.length} outils !`);
-        vscode.window.showInformationMessage(` Terminal Orchestrator v2.0.5: ${tools.length} tools available !`);
+        vscode.window.showInformationMessage(` Terminal Orchestrator v2.0.6: ${tools.length} tools available !`);
 
     } catch (error) {
         console.error(' Erreur lors de l\'activation:', error);

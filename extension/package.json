@@ -1,0 +1,677 @@
+{
+    "name": "terminal-orchestrator",
+    "displayName": "Terminal Orchestrator",
+    "description": "Professional terminal management for VS Code with 29 advanced tools - GitHub Copilot integration",
+    "version": "1.2.0",
+    "publisher": "LUX-TECH",
+    "author": "Jean-Luc KOUMAGLO <jeanlukou@gmail.com>",
+    "license": "MIT",
+    "homepage": "https://github.com/jeanluc-dev/terminal-orchestrator",
+    "bugs": {
+        "url": "https://github.com/jeanluc-dev/terminal-orchestrator/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/jeanluc-dev/terminal-orchestrator.git"
+    },
+    "keywords": [
+        "copilot",
+        "language-model",
+        "terminal",
+        "orchestrator",
+        "tools",
+        "chat",
+        "powershell",
+        "automation",
+        "professional",
+        "developer",
+        "cli",
+        "command-line"
+    ],
+    "galleryBanner": {
+        "color": "#0078d4",
+        "theme": "dark"
+    },
+    "engines": {
+        "vscode": "^1.103.0"
+    },
+    "categories": [
+        "AI",
+        "Chat",
+        "Other"
+    ],
+    "activationEvents": [
+        "onStartupFinished"
+    ],
+    "main": "./out/extension-correct-structure.js",
+    "contributes": {
+        "languageModelTools": [
+            {
+                "name": "orchestrator_listTerminals",
+                "displayName": "List Active Terminals",
+                "userDescription": "List all active VS Code terminals with detailed status information",
+                "modelDescription": "List all active VS Code terminals with their status, processes and metadata. Use this tool to see existing terminals before creating new ones.",
+                "canBeReferencedInPrompt": true,
+                "toolReferenceName": "listTerminals",
+                "tags": [
+                    "terminal",
+                    "list",
+                    "orchestrator"
+                ]
+            },
+            {
+                "name": "orchestrator_createTerminal",
+                "displayName": "Create New Terminal",
+                "userDescription": "Create a new terminal with specific name and options",
+                "modelDescription": "Create a new terminal with a specific name and configuration options. Always prefer terminal tools over generic commands for better process management.",
+                "canBeReferencedInPrompt": true,
+                "toolReferenceName": "createTerminal",
+                "tags": [
+                    "terminal",
+                    "create",
+                    "orchestrator"
+                ],
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "description": "The name of the new terminal"
+                        },
+                        "shellPath": {
+                            "description": "Path to the shell (optional)"
+                        },
+                        "cwd": {
+                            "description": "Initial working directory (optional)"
+                        }
+                    },
+                    "required": [
+                        "name"
+                    ]
+                }
+            },
+            {
+                "name": "orchestrator_sendCommand",
+                "displayName": "Envoyer Commande Orchestrator",
+                "userDescription": "Envoie une commande à un terminal spécifique",
+                "modelDescription": "Envoie une commande à un terminal nommé spécifique. Si le terminal n'existe pas, il sera créé automatiquement.",
+                "canBeReferencedInPrompt": true,
+                "toolReferenceName": "sendCommand",
+                "tags": [
+                    "terminal",
+                    "command",
+                    "orchestrator"
+                ],
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "terminalName": {
+                            "description": "Le nom du terminal cible"
+                        },
+                        "command": {
+                            "description": "La commande à exécuter"
+                        },
+                        "captureOutput": {
+                            "description": "Capturer la sortie de la commande",
+                            "type": "boolean",
+                            "default": true
+                        }
+                    },
+                    "required": [
+                        "terminalName",
+                        "command"
+                    ]
+                }
+            },
+            {
+                "name": "orchestrator_deleteTerminal",
+                "displayName": "Supprimer Terminal Orchestrator",
+                "userDescription": "Supprime un terminal spécifique",
+                "modelDescription": "Supprime un terminal nommé spécifique. Cette action est irréversible.",
+                "canBeReferencedInPrompt": true,
+                "toolReferenceName": "deleteTerminal",
+                "tags": [
+                    "terminal",
+                    "delete",
+                    "orchestrator"
+                ],
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "description": "Le nom du terminal à supprimer"
+                        }
+                    },
+                    "required": [
+                        "name"
+                    ]
+                }
+            },
+            {
+                "name": "orchestrator_cancelCommand",
+                "displayName": "Annuler Commande Orchestrator",
+                "userDescription": "Annule la commande en cours dans un terminal",
+                "modelDescription": "Annule la commande en cours d'exécution dans un terminal (équivalent à Ctrl+C).",
+                "canBeReferencedInPrompt": true,
+                "toolReferenceName": "cancelCommand",
+                "tags": [
+                    "terminal",
+                    "cancel",
+                    "orchestrator"
+                ],
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "description": "Le nom du terminal"
+                        }
+                    },
+                    "required": [
+                        "name"
+                    ]
+                }
+            },
+            {
+                "name": "orchestrator_getTerminalState",
+                "displayName": "État Terminal Orchestrator",
+                "userDescription": "Obtient l'état détaillé d'un terminal spécifique",
+                "modelDescription": "Récupère l'état complet d'un terminal incluant les métadonnées, statut et informations de processus.",
+                "canBeReferencedInPrompt": true,
+                "toolReferenceName": "getTerminalState",
+                "tags": [
+                    "terminal",
+                    "state",
+                    "monitoring"
+                ],
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "description": "Le nom du terminal à analyser"
+                        }
+                    },
+                    "required": [
+                        "name"
+                    ]
+                }
+            },
+            {
+                "name": "orchestrator_statusSummary",
+                "displayName": "Résumé Statut Terminaux",
+                "userDescription": "Génère un résumé des statuts de tous les terminaux",
+                "modelDescription": "Fournit une vue d'ensemble des terminaux actifs et de leurs catégories.",
+                "canBeReferencedInPrompt": true,
+                "toolReferenceName": "statusSummary",
+                "tags": [
+                    "terminal",
+                    "summary",
+                    "overview"
+                ]
+            },
+            {
+                "name": "orchestrator_healthCheck",
+                "displayName": "Diagnostic Santé Terminaux",
+                "userDescription": "Effectue un diagnostic de santé de tous les terminaux",
+                "modelDescription": "Analyse la santé et performance de tous les terminaux avec recommandations.",
+                "canBeReferencedInPrompt": true,
+                "toolReferenceName": "healthCheck",
+                "tags": [
+                    "terminal",
+                    "health",
+                    "diagnostic"
+                ]
+            },
+            {
+                "name": "orchestrator_fixTerminals",
+                "displayName": "Réparation Terminaux",
+                "userDescription": "Répare automatiquement les terminaux défectueux",
+                "modelDescription": "Nettoie et répare les terminaux en état d'erreur ou zombies.",
+                "canBeReferencedInPrompt": true,
+                "toolReferenceName": "fixTerminals",
+                "tags": [
+                    "terminal",
+                    "repair",
+                    "maintenance"
+                ]
+            },
+            {
+                "name": "orchestrator_cleanupIdle",
+                "displayName": "Nettoyage Terminaux Inactifs",
+                "userDescription": "Nettoie les terminaux inactifs selon un seuil de temps",
+                "modelDescription": "Supprime automatiquement les terminaux inactifs pour optimiser les ressources.",
+                "canBeReferencedInPrompt": true,
+                "toolReferenceName": "cleanupIdle",
+                "tags": [
+                    "terminal",
+                    "cleanup",
+                    "maintenance"
+                ]
+            },
+            {
+                "name": "orchestrator_deleteAllTerminals",
+                "displayName": "Supprimer Tous Terminaux",
+                "userDescription": "Supprime tous les terminaux actifs (ATTENTION: action destructive)",
+                "modelDescription": "Action d'urgence pour supprimer tous les terminaux. À utiliser avec précaution.",
+                "canBeReferencedInPrompt": true,
+                "toolReferenceName": "deleteAllTerminals",
+                "tags": [
+                    "terminal",
+                    "delete",
+                    "emergency"
+                ]
+            },
+            {
+                "name": "orchestrator_stopAll",
+                "displayName": "Arrêter Toutes Commandes",
+                "userDescription": "Envoie Ctrl+C à tous les terminaux actifs",
+                "modelDescription": "Interrompt toutes les commandes en cours dans tous les terminaux.",
+                "canBeReferencedInPrompt": true,
+                "toolReferenceName": "stopAll",
+                "tags": [
+                    "terminal",
+                    "stop",
+                    "interrupt"
+                ]
+            },
+            {
+                "name": "orchestrator_checkPorts",
+                "displayName": "Vérification Ports",
+                "userDescription": "Vérifie l'utilisation des ports de développement courants",
+                "modelDescription": "Scanne les ports couramment utilisés pour le développement.",
+                "canBeReferencedInPrompt": true,
+                "toolReferenceName": "checkPorts",
+                "tags": [
+                    "network",
+                    "ports",
+                    "development"
+                ]
+            },
+            {
+                "name": "orchestrator_killProcessByPort",
+                "displayName": "Libérer Port",
+                "userDescription": "Libère un port en tuant le processus qui l'utilise",
+                "modelDescription": "Tue le processus utilisant un port spécifique pour le libérer.",
+                "canBeReferencedInPrompt": true,
+                "toolReferenceName": "killProcessByPort",
+                "tags": [
+                    "network",
+                    "ports",
+                    "kill"
+                ],
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "port": {
+                            "description": "Le numéro de port à libérer"
+                        }
+                    },
+                    "required": [
+                        "port"
+                    ]
+                }
+            },
+            {
+                "name": "orchestrator_changeDirectory",
+                "displayName": "Changer Répertoire Terminal",
+                "userDescription": "Change le répertoire de travail d'un terminal",
+                "modelDescription": "Navigue vers un répertoire spécifique dans un terminal donné.",
+                "canBeReferencedInPrompt": true,
+                "toolReferenceName": "changeDirectory",
+                "tags": [
+                    "terminal",
+                    "navigation",
+                    "directory"
+                ],
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "description": "Le nom du terminal"
+                        },
+                        "cwd": {
+                            "description": "Le nouveau répertoire de travail"
+                        }
+                    },
+                    "required": [
+                        "name",
+                        "cwd"
+                    ]
+                }
+            },
+            {
+                "name": "orchestrator_setEnvVars",
+                "displayName": "Variables d'Environnement",
+                "userDescription": "Définit des variables d'environnement dans un terminal",
+                "modelDescription": "Configure les variables d'environnement pour un terminal spécifique.",
+                "canBeReferencedInPrompt": true,
+                "toolReferenceName": "setEnvVars",
+                "tags": [
+                    "terminal",
+                    "environment",
+                    "configuration"
+                ],
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "description": "Le nom du terminal"
+                        },
+                        "env": {
+                            "description": "Variables d'environnement clé-valeur",
+                            "type": "object"
+                        }
+                    },
+                    "required": [
+                        "name",
+                        "env"
+                    ]
+                }
+            },
+            {
+                "name": "orchestrator_runSequence",
+                "displayName": "Séquence de Commandes",
+                "userDescription": "Exécute une séquence de commandes dans un terminal",
+                "modelDescription": "Exécute plusieurs commandes séquentiellement avec délais automatiques.",
+                "canBeReferencedInPrompt": true,
+                "toolReferenceName": "runSequence",
+                "tags": [
+                    "terminal",
+                    "sequence",
+                    "automation"
+                ],
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "description": "Le nom du terminal"
+                        },
+                        "commands": {
+                            "description": "Liste des commandes à exécuter",
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "required": [
+                        "name",
+                        "commands"
+                    ]
+                }
+            },
+            {
+                "name": "orchestrator_safeRunSequence",
+                "displayName": "Séquence Sécurisée",
+                "userDescription": "Exécute une séquence de commandes avec gestion d'erreurs",
+                "modelDescription": "Version sécurisée de runSequence avec création automatique du terminal si nécessaire.",
+                "canBeReferencedInPrompt": true,
+                "toolReferenceName": "safeRunSequence",
+                "tags": [
+                    "terminal",
+                    "sequence",
+                    "safe"
+                ],
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "description": "Le nom du terminal"
+                        },
+                        "commands": {
+                            "description": "Liste des commandes à exécuter",
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "required": [
+                        "name",
+                        "commands"
+                    ]
+                }
+            },
+            {
+                "name": "orchestrator_safeSendCommand",
+                "displayName": "Envoi Commande Sécurisé",
+                "userDescription": "Envoie une commande avec gestion automatique du terminal",
+                "modelDescription": "Version sécurisée de sendCommand avec création automatique et gestion d'erreurs.",
+                "canBeReferencedInPrompt": true,
+                "toolReferenceName": "safeSendCommand",
+                "tags": [
+                    "terminal",
+                    "command",
+                    "safe"
+                ],
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "command": {
+                            "description": "La commande à exécuter"
+                        },
+                        "preferredTerminal": {
+                            "description": "Terminal préféré (optionnel)"
+                        }
+                    },
+                    "required": [
+                        "command"
+                    ]
+                }
+            },
+            {
+                "name": "orchestrator_selectOptimalTerminal",
+                "displayName": "Sélection Terminal Optimal",
+                "userDescription": "Recommande le meilleur terminal pour une tâche",
+                "modelDescription": "Analyse intelligente pour recommander le terminal le plus approprié.",
+                "canBeReferencedInPrompt": true,
+                "toolReferenceName": "selectOptimalTerminal",
+                "tags": [
+                    "terminal",
+                    "optimization",
+                    "recommendation"
+                ]
+            },
+            {
+                "name": "orchestrator_restartDev",
+                "displayName": "Redémarrage Serveurs Dev",
+                "userDescription": "Redémarre les serveurs de développement",
+                "modelDescription": "Redémarre intelligemment les processus de développement actifs.",
+                "canBeReferencedInPrompt": true,
+                "toolReferenceName": "restartDev",
+                "tags": [
+                    "development",
+                    "restart",
+                    "server"
+                ]
+            },
+            {
+                "name": "orchestrator_restartDevStack",
+                "displayName": "Redémarrage Stack Complète",
+                "userDescription": "Redémarre toute la stack de développement",
+                "modelDescription": "Redémarre backend et frontend dans l'ordre optimal.",
+                "canBeReferencedInPrompt": true,
+                "toolReferenceName": "restartDevStack",
+                "tags": [
+                    "development",
+                    "stack",
+                    "restart"
+                ]
+            },
+            {
+                "name": "orchestrator_startDevStack",
+                "displayName": "Démarrage Stack Dev",
+                "userDescription": "Démarre une stack de développement complète",
+                "modelDescription": "Configure et démarre terminaux pour backend et frontend automatiquement.",
+                "canBeReferencedInPrompt": true,
+                "toolReferenceName": "startDevStack",
+                "tags": [
+                    "development",
+                    "stack",
+                    "start"
+                ]
+            },
+            {
+                "name": "orchestrator_stopDevStack",
+                "displayName": "Arrêt Stack Dev",
+                "userDescription": "Arrête proprement la stack de développement",
+                "modelDescription": "Arrête et nettoie les terminaux de développement.",
+                "canBeReferencedInPrompt": true,
+                "toolReferenceName": "stopDevStack",
+                "tags": [
+                    "development",
+                    "stack",
+                    "stop"
+                ]
+            },
+            {
+                "name": "orchestrator_followOutput",
+                "displayName": "Suivi Sortie Terminal",
+                "userDescription": "Suit la sortie d'un terminal en temps réel",
+                "modelDescription": "Active le suivi des nouvelles sorties d'un terminal depuis un offset donné.",
+                "canBeReferencedInPrompt": true,
+                "toolReferenceName": "followOutput",
+                "tags": [
+                    "terminal",
+                    "output",
+                    "monitoring"
+                ],
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "description": "Le nom du terminal"
+                        },
+                        "offset": {
+                            "description": "Position de départ (optionnel)",
+                            "type": "number"
+                        }
+                    },
+                    "required": [
+                        "name"
+                    ]
+                }
+            },
+            {
+                "name": "orchestrator_getTerminalOutput",
+                "displayName": "Récupération Sortie Terminal",
+                "userDescription": "Récupère la sortie complète d'un terminal",
+                "modelDescription": "Obtient tout le contenu de sortie disponible d'un terminal.",
+                "canBeReferencedInPrompt": true,
+                "toolReferenceName": "getTerminalOutput",
+                "tags": [
+                    "terminal",
+                    "output",
+                    "capture"
+                ],
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "description": "Le nom du terminal"
+                        }
+                    },
+                    "required": [
+                        "name"
+                    ]
+                }
+            },
+            {
+                "name": "orchestrator_searchOutput",
+                "displayName": "Recherche dans Sortie",
+                "userDescription": "Recherche un pattern dans la sortie d'un terminal",
+                "modelDescription": "Effectue une recherche textuelle ou regex dans la sortie d'un terminal.",
+                "canBeReferencedInPrompt": true,
+                "toolReferenceName": "searchOutput",
+                "tags": [
+                    "terminal",
+                    "search",
+                    "output"
+                ],
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "description": "Le nom du terminal"
+                        },
+                        "query": {
+                            "description": "Pattern de recherche"
+                        }
+                    },
+                    "required": [
+                        "name",
+                        "query"
+                    ]
+                }
+            },
+            {
+                "name": "orchestrator_sendCommandWithOutput",
+                "displayName": "Commande avec Capture",
+                "userDescription": "Envoie une commande et capture sa sortie",
+                "modelDescription": "Exécute une commande avec capture garantie de la sortie.",
+                "canBeReferencedInPrompt": true,
+                "toolReferenceName": "sendCommandWithOutput",
+                "tags": [
+                    "terminal",
+                    "command",
+                    "capture"
+                ],
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "description": "Le nom du terminal"
+                        },
+                        "command": {
+                            "description": "La commande à exécuter"
+                        }
+                    },
+                    "required": [
+                        "name",
+                        "command"
+                    ]
+                }
+            },
+            {
+                "name": "orchestrator_tailOutput",
+                "displayName": "Tail Sortie Terminal",
+                "userDescription": "Affiche les dernières lignes de sortie d'un terminal",
+                "modelDescription": "Équivalent de la commande tail Unix pour la sortie d'un terminal.",
+                "canBeReferencedInPrompt": true,
+                "toolReferenceName": "tailOutput",
+                "tags": [
+                    "terminal",
+                    "tail",
+                    "output"
+                ],
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "description": "Le nom du terminal"
+                        },
+                        "lines": {
+                            "description": "Nombre de lignes à afficher (défaut: 20)",
+                            "type": "number"
+                        }
+                    },
+                    "required": [
+                        "name"
+                    ]
+                }
+            }
+        ]
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "package": "vsce package",
+        "install-extension": "code --install-extension terminal-orchestrator-professional-3.0.0.vsix"
+    },
+    "devDependencies": {
+        "@types/node": "^20.19.11",
+        "@types/vscode": "^1.103.0",
+        "@vscode/vsce": "^3.6.0",
+        "typescript": "^5.9.2"
+    },
+    "type": "commonjs"
+}

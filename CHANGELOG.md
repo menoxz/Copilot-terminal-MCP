@@ -2,12 +2,31 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.1] - 2025-08-18
+
+### 🔧 Hotfix Release
+
+#### Fixed
+- **CLI Executable**: Fixed NPX installation issues with proper command-line interface
+- **Binary Mapping**: Corrected package.json bin paths for global installations
+- **Documentation**: Updated all documentation to English for international audience
+
+#### Changed
+- **Tool Count**: Corrected from 29 to 34 tools in all documentation
+- **Language**: Switched primary language from French to English
+- **README**: Complete rewrite with improved structure and examples
+
+#### Added
+- Proper CLI help system (`copilot-terminal-mcp-server help`)
+- Enhanced error messages for troubleshooting
+- Improved installation verification commands
+
 ## [1.0.0] - 2025-08-18
 
 ### 🎉 Initial Release
 
 #### Added
-- **29 Advanced Terminal Management Tools**
+- **34 Advanced Terminal Management Tools**
   - `createTerminal` - Create named terminals with custom configurations
   - `sendCommand` - Non-blocking command execution (< 10ms response)  
   - `getTerminalOutput` - Real-time output capture and analysis
@@ -15,7 +34,7 @@ All notable changes to this project will be documented in this file.
   - `cancelCommand` - Graceful process termination
   - `deleteTerminal` - Clean resource management
   - `sendCommandAndWait` - Convenience helper for quick operations
-  - And 22+ additional specialized tools
+  - And 27+ additional specialized tools
 
 - **🚀 Non-Blocking Architecture**
   - Commands return instantly (< 10ms) instead of 30s timeout

@@ -1,108 +1,109 @@
-# 🚀 **Installation Rapide - Copilot Terminal MCP Server**
+# 🚀 **Quick Install - Copilot Terminal MCP Server**
 
-## ⚡ **Installation en 30 Secondes**
+## ⚡ **30-Second Installation**
 
-### **Option 1 : Installation Automatique (Ultra-Simple)**
+### **Option 1: Automatic Installation (Ultra-Simple)**
 
 ```bash
 npx copilot-terminal-mcp-server install
 ```
 
-**C'est tout !** 🎉 Le serveur sera automatiquement configuré dans VS Code.
+**That's it!** 🎉 The server will be automatically configured in VS Code.
 
-### **Option 2 : Installation Globale**
+### **Option 2: Global Installation**
 
 ```bash
 # 1. Installation
 npm install -g copilot-terminal-mcp-server
 
-# 2. Configuration automatique
+# 2. Automatic configuration
 copilot-terminal-install install
 ```
 
-## ✅ **Vérification de l'Installation**
+## ✅ **Installation Verification**
 
 ```bash
-# Vérifier le statut
+# Check status
 npx copilot-terminal-mcp-server status
 ```
 
-**Résultat attendu :**
+**Expected result:**
 ```
-📊 Statut du Copilot Terminal MCP Server...
+📊 Copilot Terminal MCP Server Status...
 
-📍 Configuration système :
-   Plateforme: win32
+📍 System configuration:
+   Platform: win32
    Node.js: v18.0.0+
-   ✅ Configuration MCP trouvée
-   ✅ Copilot Terminal configuré
+   ✅ MCP configuration found
+   ✅ Copilot Terminal configured
 
-📦 Fichiers du serveur :
-   ✅ Serveur principal
-   ✅ Répertoire dist
+📦 Server files:
+   ✅ Main server
+   ✅ Dist directory
 ```
 
 ## 🔄 **Activation**
 
-1. **Redémarrez VS Code**
-2. **Ouvrez GitHub Copilot Chat**  
-3. **Testez** :
+1. **Restart VS Code**
+2. **Open GitHub Copilot Chat**  
+3. **Test**:
    ```
-   @workspace Liste tous les terminaux actifs
+   @workspace List all active terminals
    ```
 
-## 🚀 **Premier Test**
+## 🚀 **First Test**
 
 ```
-@workspace Crée un terminal nommé "test" et affiche "Hello MCP Server!"
+@workspace Create a terminal named "test" and display "Hello MCP Server!"
 ```
 
-**Résultat attendu :** Terminal créé et message affiché instantanément !
+**Expected result:** Terminal created and message displayed instantly!
 
-## 🛠️ **Résolution Problèmes Rapide**
+## 🛠️ **Quick Troubleshooting**
 
-### **❌ "Serveur MCP non trouvé"**
+### **❌ "MCP server not found"**
 ```bash
 npx copilot-terminal-mcp-server install --force
 ```
 
 ### **❌ "Permission denied"**  
 ```bash
-# Windows (Administrateur)
+# Windows (Administrator)
 npm install -g copilot-terminal-mcp-server
 
 # macOS/Linux  
 sudo npm install -g copilot-terminal-mcp-server
 ```
 
-## 🎯 **Utilisation Immédiate**
+## 🎯 **Immediate Usage**
 
-### **Commandes Magiques avec GitHub Copilot :**
+### **Magic Commands with GitHub Copilot:**
 
 ```
-🚀 Serveur de développement :
-@workspace Lance npm start dans un terminal "dev-server"
+🚀 Development server:
+@workspace Launch npm start in terminal "dev-server"
 
-🧪 Tests automatiques :
-@workspace Lance les tests en mode watch dans un terminal "tests"
+🧪 Automated testing:
+@workspace Run tests in watch mode in terminal "tests"
 
-🔍 Monitoring :
-@workspace Affiche l'output de tous les terminaux actifs
+🔍 Monitoring:
+@workspace Show output from all active terminals
 
-🛠️ Multi-tâches :
-@workspace Lance le backend ET le frontend en parallèle
+🛠️ Multi-tasking:
+@workspace Launch backend AND frontend in parallel
 ```
 
-## 📊 **Fonctionnalités Clés**
+## 📊 **Key Features**
 
-- ⚡ **Retour instantané** (< 10ms)
-- 🔄 **Zéro blocage** (fini les timeouts 30s)  
-- 🚀 **Parallélisme** (plusieurs serveurs simultanés)
-- 📈 **Monitoring** temps réel
-- 🧠 **Auto-recovery** intelligent
+- ⚡ **Instant response** (< 10ms)
+- 🔄 **Zero blocking** (no more 30s timeouts)  
+- 🚀 **Parallelism** (multiple simultaneous servers)
+- 📈 **Real-time monitoring**
+- 🧠 **Intelligent auto-recovery**
+- 🔧 **34 powerful tools**
 
 ---
 
-**🎉 Installation réussie ! Votre développement vient de devenir 10x plus productif !**
+**🎉 Installation successful! Your development just became 10x more productive!**
 
-[📖 Documentation complète](README.md) • [🐛 Support](https://github.com/jeanluc-dev/copilot-terminal-mcp-server/issues)
+[📖 Complete documentation](README.md) • [🐛 Support](https://github.com/jeanluc-dev/copilot-terminal-mcp-server/issues)

@@ -1,0 +1,68 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Build outputs
+dist/
+*.tsbuildinfo
+
+# Development and test files
+test-*.*
+*.test.*
+*.spec.*
+build-and-*.*
+cleanup.ps1
+install-vscode.js
+minimal-server.js
+
+# Configuration files
+claude-config.json
+vscode-mcp-config.json
+shared-state.json
+.terminal-manager-state.json
+
+# Package files
+*.tgz
+package-v*.json*
+package-29-tools-complete.json
+
+# Documentation obsolète
+COPILOT-CHAT-INTEGRATION.md
+COPILOT-GUIDE.md
+IMPLEMENTATION-SUCCESS-v2.md
+INSTALLATION-SUCCESS.md
+PROFESSIONAL-SOLUTION.md
+QUICK-FIX-GUIDE.md
+WEBVIEW-PANEL-GUIDE.md
+CHANGELOG-V1.md
+README-NEW.md
+NON-BLOCKING-SOLUTION.md
+
+# VS Code
+.vscode/
+.vscode-terminal-bridge/
+
+# IDE
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Environment
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local

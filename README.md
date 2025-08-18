@@ -4,6 +4,20 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org/)
 
+**Advanced MCP Server for terminal management with GitHub Copilot integration**
+
+Transform your development experience with intelligent, non-blocking terminals perfectly integrated with GitHub Copilot and VS Code.
+
+## ✨ **Features**
+
+### 🔧 **Advanced Terminal Management**
+- **Named terminals**: Create and manage terminals with specific names
+- **Non-blocking execution**: Launch servers without blocking GitHub Copilotrminal MCP Server
+
+[![NPM Version](https://img.shields.io/npm/v/copilot-terminal-mcp-server)](https://www.npmjs.com/package/copilot-terminal-mcp-server)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org/)
+
 **Serveur MCP avancé pour la gestion de terminaux avec intégration GitHub Copilot**
 
 Transformez votre expérience de développement avec des terminaux intelligents, non-bloquants et parfaitement intégrés à GitHub Copilot et VS Code.

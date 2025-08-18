@@ -212,4 +212,4 @@
 
 💡 **Pro Tip** : GitHub Copilot apprend de vos habitudes. Plus vous utilisez ces patterns, plus il devient intelligent dans ses suggestions !
 
-[🔙 Retour au README](README.md) • [🛠️ Guide d'installation](QUICK-INSTALL.md)
+[🔙 Retour au README](README.md) • [🛠️ Guide d'installation](QUICK-INSTALL.md) • [🐛 Support](https://github.com/menoxz/Copilot-terminal-MCP/issues)

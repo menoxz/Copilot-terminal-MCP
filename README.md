@@ -200,8 +200,8 @@ sudo npm install -g copilot-terminal-mcp-server
 
 ```bash
 # Clone repository
-git clone https://github.com/jeanluc-dev/copilot-terminal-mcp-server.git
-cd copilot-terminal-mcp-server
+git clone https://github.com/menoxz/Copilot-terminal-MCP.git
+cd Copilot-terminal-MCP
 
 # Install dependencies
 npm install
@@ -244,8 +244,8 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 
 ## 🐛 **Support**
 
-- **Issues**: [GitHub Issues](https://github.com/jeanluc-dev/copilot-terminal-mcp-server/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/jeanluc-dev/copilot-terminal-mcp-server/discussions)
+- **Issues**: [GitHub Issues](https://github.com/menoxz/Copilot-terminal-MCP/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/menoxz/Copilot-terminal-MCP/discussions)
 - **Email**: jeanlukou@gmail.com
 
 ## 📄 **License**
@@ -256,10 +256,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 If this project helped you, please consider giving it a star! ⭐
 
-[![Star History Chart](https://api.star-history.com/svg?repos=jeanluc-dev/copilot-terminal-mcp-server&type=Date)](https://star-history.com/#jeanluc-dev/copilot-terminal-mcp-server&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=menoxz/Copilot-terminal-MCP&type=Date)](https://star-history.com/#menoxz/Copilot-terminal-MCP&Date)
 
 ---
 
 **🚀 Transform your development workflow today!**
 
-Made with ❤️ by [Jean-Luc KOUMAGLO](https://github.com/jeanluc-dev)
+Made with ❤️ by [Jean-Luc KOUMAGLO](https://github.com/menoxz)

@@ -106,4 +106,4 @@ sudo npm install -g copilot-terminal-mcp-server
 
 **🎉 Installation successful! Your development just became 10x more productive!**
 
-[📖 Complete documentation](README.md) • [🐛 Support](https://github.com/jeanluc-dev/copilot-terminal-mcp-server/issues)
+[📖 Complete documentation](README.md) • [🐛 Support](https://github.com/menoxz/Copilot-terminal-MCP/issues)

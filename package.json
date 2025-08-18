@@ -46,16 +46,16 @@
     "author": {
         "name": "Jean-Luc KOUMAGLO",
         "email": "jeanlukou@gmail.com",
-        "url": "https://github.com/jeanluc-dev"
+        "url": "https://github.com/menoxz"
     },
     "license": "MIT",
-    "homepage": "https://github.com/jeanluc-dev/copilot-terminal-mcp-server",
+    "homepage": "https://github.com/menoxz/Copilot-terminal-MCP",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/jeanluc-dev/copilot-terminal-mcp-server.git"
+        "url": "git+https://github.com/menoxz/Copilot-terminal-MCP.git"
     },
     "bugs": {
-        "url": "https://github.com/jeanluc-dev/copilot-terminal-mcp-server/issues"
+        "url": "https://github.com/menoxz/Copilot-terminal-MCP/issues"
     },
     "engines": {
         "node": ">=18.0.0"

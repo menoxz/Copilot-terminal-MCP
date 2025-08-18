@@ -2,7 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.0.1] - 2025-08-18
+## [1.0.3] - 2025-08-18
+
+### 🎨 User Improvements Release
+
+#### Changed
+- **README Enhancement**: User-driven improvements to documentation
+- **Content Optimization**: Better structure and clarity based on user feedback
+- **Examples Refinement**: Improved usage examples and clarity
+
+#### Technical
+- **Stability Improvements**: Enhanced error handling and robustness
+- **Performance Tuning**: Minor optimizations for better user experience
+- **Documentation Polish**: Refined documentation based on user insights
+
+## [1.0.2] - 2025-08-18
 
 ### 🔧 Hotfix Release
 

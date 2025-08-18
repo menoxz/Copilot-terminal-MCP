@@ -1,6 +1,6 @@
 {
     "name": "copilot-terminal-mcp-server",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "Advanced MCP Server with 34 powerful tools for terminal management and GitHub Copilot integration",
     "type": "module",
     "main": "dist/index.js",

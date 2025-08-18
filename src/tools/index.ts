@@ -16,19 +16,21 @@
  */
 
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
+import { workspaceProblemsTools } from './workspace-problems.js';
 
 /**
  * 🎭 Tool Categories for Organized Management
  */
 export const TOOL_CATEGORIES = {
-    TERMINAL_MANAGEMENT: '🔧 Terminal Management',
-    COMMAND_EXECUTION: '⚡ Command Execution',
-    DEVELOPMENT_STACK: '🚀 Development Stack',
-    MONITORING_OUTPUT: '📊 Monitoring & Output',
-    INTELLIGENT_SELECTION: '🔍 Intelligent Selection',
-    ENVIRONMENT_CONFIG: '🛠️ Environment & Configuration',
-    PORTS_PROCESSES: '🌐 Ports & Process Management',
-    MAINTENANCE_CLEANUP: '🔧 Maintenance & Cleanup'
+    TERMINAL_MANAGEMENT: 'Terminal Management',
+    COMMAND_EXECUTION: 'Command Execution',
+    DEVELOPMENT_STACK: 'Development Stack',
+    MONITORING_OUTPUT: 'Monitoring & Output',
+    INTELLIGENT_SELECTION: 'Intelligent Selection',
+    ENVIRONMENT_CONFIG: 'Environment & Configuration',
+    PORTS_PROCESSES: 'Ports & Process Management',
+    WORKSPACE_DIAGNOSTICS: 'Workspace Diagnostics & Analysis',
+    MAINTENANCE_CLEANUP: 'Maintenance & Cleanup'
 } as const;
 
 /**
@@ -57,7 +59,10 @@ export function registerAllTools(): Tool[] {
         // 🌐 PORTS & PROCESS MANAGEMENT TOOLS
         ...getPortsProcessTools(),
 
-        // 🔧 MAINTENANCE & CLEANUP TOOLS
+        // � WORKSPACE DIAGNOSTICS & ANALYSIS TOOLS
+        ...getWorkspaceDiagnosticsTools(),
+
+        // �🔧 MAINTENANCE & CLEANUP TOOLS
         ...getMaintenanceCleanupTools()
     ];
 
@@ -160,7 +165,7 @@ function getCommandExecutionTools(): Tool[] {
     return [
         {
             name: 'sendCommand',
-            description: 'Execute a command in a terminal with lightning speed and intelligence. Features timeout protection, output capture, and background execution options!',
+            description: 'Execute a command in a terminal with INSTANT response! Sends command immediately without waiting for completion. Perfect for servers, long builds, and any command. Use getTerminalOutput() afterwards to retrieve results.',
             inputSchema: {
                 type: 'object',
                 properties: {
@@ -170,19 +175,33 @@ function getCommandExecutionTools(): Tool[] {
                     },
                     command: {
                         type: 'string',
-                        description: 'Command to execute (automatically optimized for the shell type)'
-                    },
-                    captureOutput: {
-                        type: 'boolean',
-                        description: 'Whether to capture and return command output (default: true)'
-                    },
-                    timeoutMs: {
-                        type: 'number',
-                        description: 'Timeout in milliseconds (default: 30000ms = 30s)'
+                        description: 'Command to execute (automatically optimized for the shell type). Returns immediately without waiting!'
                     },
                     background: {
                         type: 'boolean',
-                        description: 'Whether to run the command in background mode (default: false)'
+                        description: 'Whether to run in background mode (default: false). Always non-blocking regardless.'
+                    }
+                },
+                required: ['name', 'command']
+            }
+        },
+        {
+            name: 'sendCommandAndWait',
+            description: 'Execute a command and automatically wait then retrieve output! Perfect helper for quick commands where you want both send + result in one call.',
+            inputSchema: {
+                type: 'object',
+                properties: {
+                    name: {
+                        type: 'string',
+                        description: 'Name of the target terminal'
+                    },
+                    command: {
+                        type: 'string',
+                        description: 'Command to execute with automatic waiting and output retrieval'
+                    },
+                    waitMs: {
+                        type: 'number',
+                        description: 'Time to wait before retrieving output (default: auto-detected based on command type)'
                     }
                 },
                 required: ['name', 'command']
@@ -508,7 +527,7 @@ function getMonitoringOutputTools(): Tool[] {
     return [
         {
             name: 'getTerminalOutput',
-            description: 'Get the complete buffered output from a terminal. Perfect for reviewing command results and debugging!',
+            description: 'Get the complete buffered output from a terminal. Perfect for retrieving results after sendCommand()! Shows all accumulated output including command results, server logs, build output, and errors.',
             inputSchema: {
                 type: 'object',
                 properties: {
@@ -767,6 +786,60 @@ function getMaintenanceCleanupTools(): Tool[] {
                         description: 'Idle threshold in milliseconds (default: 600000ms = 10min)'
                     }
                 },
+                required: []
+            }
+        }
+    ];
+}
+
+/**
+ * 🔍 Workspace Diagnostics & Analysis Tools
+ */
+function getWorkspaceDiagnosticsTools(): Tool[] {
+    return [
+        {
+            name: 'getWorkspaceProblems',
+            description: 'Comprehensive workspace analysis with intelligent problem detection, categorization, and solution recommendations. Provides detailed insights into code quality, errors, warnings, and improvement opportunities.',
+            inputSchema: {
+                type: 'object',
+                properties: {
+                    refresh: {
+                        type: 'boolean',
+                        description: 'Force refresh cache to perform fresh analysis (default: false)'
+                    }
+                },
+                required: []
+            }
+        },
+        {
+            name: 'getFileProblems',
+            description: 'Analyze a specific file for problems and issues with detailed breakdown by severity, source, and category.',
+            inputSchema: {
+                type: 'object',
+                properties: {
+                    filePath: {
+                        type: 'string',
+                        description: 'Absolute path to the file to analyze for problems'
+                    }
+                },
+                required: ['filePath']
+            }
+        },
+        {
+            name: 'getWorkspaceHealth',
+            description: 'Quick workspace health overview with key metrics, health score, and improvement recommendations.',
+            inputSchema: {
+                type: 'object',
+                properties: {},
+                required: []
+            }
+        },
+        {
+            name: 'clearDiagnosticsCache',
+            description: '----------------------------------------------------Clear diagnostics cache to force fresh analysis on next workspace scan.',
+            inputSchema: {
+                type: 'object',
+                properties: {},
                 required: []
             }
         }

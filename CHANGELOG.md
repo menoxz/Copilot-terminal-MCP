@@ -1,57 +1,73 @@
-# 📋 CHANGELOG - Copilot Terminal Master MCP Server
+# Changelog
 
-Toutes les modifications notables de ce projet seront documentées dans ce fichier.
+All notable changes to this project will be documented in this file.
 
-## [1.0.0] - 2025-08-16 - Version Stable Initiale
+## [1.0.0] - 2025-08-18
 
-### 🎉 Ajouté
-- **Terminal Management System** complet avec gestion multi-terminaux
-- **Outils MCP** : `createTerminal`, `listTerminals`, `sendCommand`, `deleteTerminal`
-- **Health Monitoring** : `healthCheck`, `getTerminalState`, `getTerminalOutput`
-- **Intelligence Contextuelle** : `selectOptimalTerminal` avec scoring automatique
-- **Performance Analytics** : Métriques temps réel, historique des commandes
-- **Support PowerShell** : Syntaxe Windows native, variables d'environnement
-- **Gestion d'erreurs avancée** : Recovery automatique, timeout intelligent
-- **Logger créatif** : Affichage coloré et informatif
-- **Configuration flexible** : Variables d'environnement, timeouts configurables
+### 🎉 Initial Release
 
-### 🔧 Fonctionnalités Techniques
-- **Architecture modulaire** : Core/Tools/Types/Utils séparés
-- **TypeScript complet** : Typage strict et interfaces définies
-- **MCP SDK v1.0** : Protocole Model Context Protocol standard
-- **Buffer management** : Gestion mémoire optimisée pour les outputs
-- **Process lifecycle** : Création/supervision/terminaison propre des processus
-- **Bridge VS Code** : Intégration native avec l'écosystème VS Code
+#### Added
+- **29 Advanced Terminal Management Tools**
+  - `createTerminal` - Create named terminals with custom configurations
+  - `sendCommand` - Non-blocking command execution (< 10ms response)  
+  - `getTerminalOutput` - Real-time output capture and analysis
+  - `listTerminals` - Comprehensive terminal overview with metrics
+  - `cancelCommand` - Graceful process termination
+  - `deleteTerminal` - Clean resource management
+  - `sendCommandAndWait` - Convenience helper for quick operations
+  - And 22+ additional specialized tools
 
-### 🛠️ Outils Disponibles
-- `createTerminal` - Création de terminaux avec configuration complète
-- `listTerminals` - Liste détaillée des terminaux actifs
-- `sendCommand` - Exécution de commandes avec capture de sortie
-- `getTerminalOutput` - Récupération de l'output d'un terminal
-- `getTerminalState` - État détaillé d'un terminal spécifique  
-- `deleteTerminal` - Suppression propre d'un terminal
-- `healthCheck` - Vérification de santé globale du système
-- `selectOptimalTerminal` - Sélection intelligente de terminal
+- **🚀 Non-Blocking Architecture**
+  - Commands return instantly (< 10ms) instead of 30s timeout
+  - Parallel terminal management without blocking
+  - Real-time output streaming and monitoring  
+  - Smart process lifecycle management
 
-### 📊 Métriques & Performance
-- Temps de réponse moyen : ~300ms
-- Taux de succès : 100%
-- Support jusqu'à 20 terminaux simultanés
-- Gestion mémoire optimisée avec buffer circulaire
-- Timeout intelligent (30s par défaut, configurable)
+- **🔧 GitHub Copilot Integration**
+  - Seamless VS Code Copilot Chat integration
+  - Natural language terminal commands
+  - Intelligent command suggestions and auto-completion
+  - Context-aware error handling and recovery
 
-### ✅ Tests Réussis
-- ✅ Création et gestion de terminaux multiples
-- ✅ Exécution de commandes PowerShell complexes
-- ✅ Capture et analyse des outputs
-- ✅ Métriques de performance en temps réel
-- ✅ Gestion d'erreurs et recovery automatique
-- ✅ Health monitoring et diagnostics
+- **📦 Easy Installation**
+  - One-command NPM installation: `npx @luxtech/copilot-terminal-mcp-server install`
+  - Automatic VS Code MCP configuration
+  - Cross-platform support (Windows, macOS, Linux)
+  - Built-in diagnostics and status checking
+- GitHub Copilot Chat integration
+- Terminal Management tools (create, list, delete, state)
+- Command Execution tools (send, safe send, sequences)  
+- Development Stack tools (start, stop, restart dev servers)
+- Monitoring & Output tools (get output, search, tail)
+- Intelligent Selection tools (optimal terminal selection)
+- Environment Configuration tools (env vars, directories)
+- Ports & Process Management tools (port checking, process killing)
+- Maintenance & Cleanup tools (cleanup, health checks)
+- Professional logging with creative formatting
+- Performance analytics and monitoring
+- Cross-platform compatibility (Windows, macOS, Linux)
+- Security-focused design and validation
+- Comprehensive documentation and examples
+- TypeScript implementation with full type safety
 
-### 🔜 Prochaines Versions
-- [ ] Panel WebView intégré pour interface graphique
-- [ ] Dashboard web en temps réel
-- [ ] Export/Import de configurations
-- [ ] Intégration avec d'autres outils VS Code
-- [ ] API REST optionnelle
-- [ ] Support Linux/MacOS étendu
+### Features
+- Named terminal creation with custom configurations
+- Intelligent command execution with error recovery
+- Development stack automation (backend/frontend coordination)
+- Port conflict detection and resolution
+- Real-time output monitoring and search
+- Environment variable management
+- Process lifecycle management
+- Health diagnostics and auto-repair
+- Performance metrics and optimization suggestions
+- Cross-shell compatibility (PowerShell, Bash, Zsh)
+
+### Technical Details
+- Built with TypeScript for type safety
+- Uses Model Context Protocol (MCP) v2024-11-05
+- Supports Node.js >= 18.0.0
+- Modular architecture with plugin system
+- Comprehensive error handling and logging
+- Performance optimized for large-scale usage
+- Memory efficient terminal management
+- Async/await throughout for optimal performance

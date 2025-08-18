@@ -1,76 +1,68 @@
-# 🗂️ Git Ignore for Copilot Terminal Master MCP Server
-
-# 📦 Dependencies
+# Dependencies
 node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+package-lock.json
 
-# 🏗️ Build outputs
+# Build outputs
 dist/
-build/
 *.tsbuildinfo
 
-# 🔧 Environment & Config
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+# Development and test files
+test-*.*
+*.test.*
+*.spec.*
+build-and-*.*
+cleanup.ps1
+install-vscode.js
+minimal-server.js
 
-# 🧪 Test coverage
-coverage/
-.nyc_output/
-*.lcov
+# Configuration files
+claude-config.json
+vscode-mcp-config.json
+shared-state.json
+.terminal-manager-state.json
 
-# 📊 Logs
-logs/
-*.log
-pids/
-*.pid
-*.seed
-*.pid.lock
+# Package files
+*.tgz
+package-v*.json*
+package-29-tools-complete.json
 
-# ⚡ Runtime data
-.npm
-.eslintcache
-.node_repl_history
+# Documentation obsolète
+COPILOT-CHAT-INTEGRATION.md
+COPILOT-GUIDE.md
+IMPLEMENTATION-SUCCESS-v2.md
+INSTALLATION-SUCCESS.md
+PROFESSIONAL-SOLUTION.md
+QUICK-FIX-GUIDE.md
+WEBVIEW-PANEL-GUIDE.md
+CHANGELOG-V1.md
+README-NEW.md
+NON-BLOCKING-SOLUTION.md
 
-# 🔗 Optional npm cache directory
-.npm
-
-# 🎯 VS Code specific
-.vscode/settings.json
-.vscode/launch.json
-.vscode/extensions.json
+# VS Code
+.vscode/
 .vscode-terminal-bridge/
 
-# 📱 OS generated files
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-
-# 🛠️ IDE
+# IDE
 .idea/
 *.swp
 *.swo
 *~
 
-# 🔐 Security
-*.pem
-*.key
-*.cert
+# OS
+.DS_Store
+Thumbs.db
 
-# 🚀 Deployment
-.deployment
-.deploymentcache
+# Logs
+*.log
+logs/
 
-# 📋 Temporary
+# Temporary files
 *.tmp
 *.temp
-temp/
-tmp/
+
+# Environment
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local

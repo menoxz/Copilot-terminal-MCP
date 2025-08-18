@@ -1,74 +1,78 @@
 {
-    "name": "copilot-terminal-master-mcp",
+    "name": "copilot-terminal-mcp-server",
     "version": "1.0.0",
-    "description": "🚀 Ultra-Creative MCP Server for Intelligent Terminal Management - Copilot Edition",
-    "main": "dist/index.js",
+    "description": "Advanced MCP Server for terminal management with GitHub Copilot integration",
     "type": "module",
+    "main": "dist/index.js",
+    "bin": {
+        "copilot-terminal-mcp-server": "bin/cli.js",
+        "copilot-terminal-install": "bin/install.js",
+        "copilot-terminal-setup": "bin/install.js"
+    },
+    "files": [
+        "dist/**/*",
+        "bin/**/*",
+        "README.md",
+        "LICENSE",
+        "CHANGELOG.md"
+    ],
     "scripts": {
         "build": "tsc",
         "start": "node dist/index.js",
-        "dev": "tsx watch src/index.ts",
-        "clean": "rimraf dist",
-        "lint": "eslint src --ext .ts",
-        "test": "node test-mcp.js",
-        "test:full": "vitest",
-        "install-vscode": "node install-vscode.js",
-        "package": "npm run build && npm pack"
-    },
-    "bin": {
-        "copilot-terminal-master": "./dist/index.js"
+        "dev": "tsc --watch",
+        "prepublishOnly": "npm run build",
+        "postinstall": "node bin/postinstall.js",
+        "test": "node --test",
+        "clean": "rm -rf dist",
+        "install-mcp": "node bin/install.js install",
+        "uninstall-mcp": "node bin/install.js uninstall",
+        "status": "node bin/install.js status",
+        "package": "node bin/publish.js",
+        "publish-test": "npm publish --dry-run",
+        "publish-npm": "npm publish"
     },
     "keywords": [
         "mcp",
+        "server",
         "terminal",
         "copilot",
+        "github",
+        "vscode",
         "automation",
-        "development",
-        "ai",
-        "intelligent",
-        "creative"
+        "cli",
+        "developer-tools",
+        "model-context-protocol"
     ],
-    "author": "Super Agent Ultra 2025",
-    "license": "MIT",
-    "dependencies": {
-        "@modelcontextprotocol/sdk": "^0.5.0",
-        "chalk": "^5.5.0",
-        "commander": "^12.0.0",
-        "cross-spawn": "^7.0.3",
-        "detect-port": "^1.6.1",
-        "emoji-regex": "^10.3.0",
-        "find-process": "^1.4.11",
-        "glob": "^10.3.10",
-        "nanoid": "^5.1.5",
-        "node-pty": "^1.0.0",
-        "ps-list": "^8.1.1",
-        "strip-ansi": "^7.1.0",
-        "tree-kill": "^1.2.2",
-        "winston": "^3.11.0",
-        "ws": "^8.16.0",
-        "zod": "^3.22.4"
+    "author": {
+        "name": "Jean-Luc KOUMAGLO",
+        "email": "jeanlukou@gmail.com",
+        "url": "https://github.com/jeanluc-dev"
     },
-    "devDependencies": {
-        "@types/cross-spawn": "^6.0.6",
-        "@types/detect-port": "^1.3.5",
-        "@types/node": "^20.11.0",
-        "@types/ws": "^8.5.10",
-        "@typescript-eslint/eslint-plugin": "^6.19.0",
-        "@typescript-eslint/parser": "^6.19.0",
-        "eslint": "^8.56.0",
-        "rimraf": "^5.0.5",
-        "tsx": "^4.7.0",
-        "typescript": "^5.3.3",
-        "vitest": "^1.2.0"
+    "license": "MIT",
+    "homepage": "https://github.com/jeanluc-dev/copilot-terminal-mcp-server",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/jeanluc-dev/copilot-terminal-mcp-server.git"
+    },
+    "bugs": {
+        "url": "https://github.com/jeanluc-dev/copilot-terminal-mcp-server/issues"
     },
     "engines": {
         "node": ">=18.0.0"
     },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/copilot/terminal-master-mcp"
+    "dependencies": {
+        "@modelcontextprotocol/sdk": "^0.4.0",
+        "chalk": "^5.6.0",
+        "detect-port": "^2.1.0",
+        "find-process": "^2.0.0",
+        "nanoid": "^5.1.5",
+        "strip-ansi": "^7.1.0",
+        "tree-kill": "^1.2.2"
     },
-    "publishConfig": {
-        "access": "public"
+    "devDependencies": {
+        "@types/detect-port": "^1.3.5",
+        "@types/find-process": "^1.1.0",
+        "@types/node": "^20.0.0",
+        "typescript": "^5.9.2"
     }
 }

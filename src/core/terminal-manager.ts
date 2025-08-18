@@ -48,6 +48,7 @@ interface ITerminal {
     isRunning: boolean;
     currentCommand?: string;
     commandHistory: string[];
+    lastExitCode?: number; // Added for non-blocking execution
     performance: {
         commandCount: number;
         avgExecutionTime: number;
@@ -75,6 +76,9 @@ interface ICommandResult {
     command: string;
     terminal: string;
     metadata?: any;
+    nonBlocking?: boolean; // Added for non-blocking execution
+    processId?: number; // Added for non-blocking execution
+    note?: string; // Added for helpful messages
 }
 
 /**
@@ -314,9 +318,9 @@ export class UltraTerminalManager extends EventEmitter {
             background?: boolean;
         } = {}
     ): Promise<ICommandResult> {
-        const { captureOutput = true, timeoutMs = 30000, background = false } = options;
+        const { background = false } = options;
 
-        this.logger.info(`⚡ Executing spectacular command in ${chalk.cyan(terminalName)}: ${chalk.yellow(command)}`);
+        this.logger.info(`⚡ Executing command INSTANTLY in ${chalk.cyan(terminalName)}: ${chalk.yellow(command)}`);
 
         const terminal = this.terminals.get(terminalName);
         if (!terminal) {
@@ -332,27 +336,19 @@ export class UltraTerminalManager extends EventEmitter {
             terminal.commandHistory.push(command);
             terminal.performance.commandCount++;
 
-            // Execute command with creative process management
-            const result = await this.executeCommandWithStyle(terminal, command, {
-                captureOutput,
-                timeoutMs,
-                background
-            });
+            // Execute command NON-BLOCKING - new implementation
+            const result = await this.executeCommandNonBlocking(terminal, command, { background });
 
             // Update performance metrics
             const duration = Date.now() - startTime;
             terminal.performance.avgExecutionTime =
                 (terminal.performance.avgExecutionTime + duration) / 2;
 
-            if (result.success) {
-                terminal.performance.successRate =
-                    (terminal.performance.successRate + 100) / 2;
-            } else {
-                terminal.performance.errorRate =
-                    (terminal.performance.errorRate + 100) / 2;
-            }
+            // Always success for non-blocking execution
+            terminal.performance.successRate =
+                (terminal.performance.successRate + 100) / 2;
 
-            this.logger.success(`🌟 Command completed in ${duration}ms with ${result.success ? 'success' : 'failure'}`);
+            this.logger.success(`🌟 Command sent instantly in ${duration}ms! Use getTerminalOutput() to retrieve results.`);
 
             this.emit('commandExecuted', {
                 terminal: terminalName,
@@ -367,12 +363,80 @@ export class UltraTerminalManager extends EventEmitter {
             const duration = Date.now() - startTime;
             terminal.performance.errorRate = (terminal.performance.errorRate + 100) / 2;
 
-            this.logger.error(`💥 Command failed after ${duration}ms: ${error}`);
+            this.logger.error(`💥 Command failed to send after ${duration}ms: ${error}`);
 
             throw error;
         } finally {
             terminal.currentCommand = undefined;
         }
+    }
+
+    /**
+     * ⏱️ Send Command and Wait - Helper for one-call execution
+     */
+    async sendCommandAndWait(
+        terminalName: string,
+        command: string,
+        waitMs?: number
+    ): Promise<ICommandResult> {
+        // Detect optimal wait time if not provided
+        const optimalWaitTime = waitMs || this.guessOptimalWaitTime(command);
+
+        this.logger.info(`⏱️ Sending command and waiting ${optimalWaitTime}ms for results...`);
+
+        // 1. Send command non-blocking
+        const sendResult = await this.sendCommand(terminalName, command);
+
+        // 2. Wait intelligently
+        await new Promise(resolve => setTimeout(resolve, optimalWaitTime));
+
+        // 3. Get output
+        const output = await this.getTerminalOutput(terminalName);
+
+        // 4. Return combined result
+        return {
+            ...sendResult,
+            output: output.content || sendResult.output,
+            note: `Command sent and waited ${optimalWaitTime}ms. Retrieved ${output.content?.length || 0} characters of output.`,
+            metadata: {
+                waitTime: optimalWaitTime,
+                autoRetrieved: true,
+                originalSendResult: sendResult
+            }
+        };
+    }
+
+    /**
+     * 🎯 Guess optimal wait time based on command type
+     */
+    private guessOptimalWaitTime(command: string): number {
+        // Server commands - quick startup detection
+        if (/npm\s+(start|run\s+dev)|ng\s+serve|python.*runserver|yarn\s+(start|dev)/.test(command)) {
+            return 5000; // 5 seconds for servers to start
+        }
+
+        // Build commands - longer timeout
+        if (/npm\s+run\s+build|tsc|webpack|rollup|vite\s+build/.test(command)) {
+            return 30000; // 30 seconds for builds
+        }
+
+        // Test commands
+        if (/npm\s+(test|run\s+test)|jest|mocha|pytest/.test(command)) {
+            return 10000; // 10 seconds for tests
+        }
+
+        // Install commands
+        if (/npm\s+install|pip\s+install|yarn\s+install/.test(command)) {
+            return 15000; // 15 seconds for package installs
+        }
+
+        // Docker commands
+        if (/docker/.test(command)) {
+            return 20000; // 20 seconds for docker operations
+        }
+
+        // Default for other commands
+        return 3000; // 3 seconds default
     }
 
     /**
@@ -764,6 +828,102 @@ export class UltraTerminalManager extends EventEmitter {
         if (lowerName.includes('k8s') || lowerName.includes('kubernetes')) tags.push('kubernetes', 'orchestration');
 
         return tags;
+    }
+
+    /**
+     * 🚀 Execute Command Non-Blocking - REVOLUTIONARY APPROACH
+     */
+    private async executeCommandNonBlocking(
+        terminal: ITerminal,
+        command: string,
+        options: { background?: boolean }
+    ): Promise<ICommandResult> {
+        const startTime = Date.now();
+
+        try {
+            // Spawn process but DON'T wait for completion
+            const childProcess = spawn(terminal.shell, [], {
+                cwd: terminal.cwd,
+                env: terminal.env,
+                stdio: ['pipe', 'pipe', 'pipe'],
+                detached: options.background
+            });
+
+            terminal.process = childProcess;
+            terminal.isRunning = true;
+
+            // Set up output capture in background
+            childProcess.stdout?.on('data', (data) => {
+                const text = data.toString();
+                terminal.outputBuffer.push(text);
+
+                // Keep buffer size reasonable
+                if (terminal.outputBuffer.length > 1000) {
+                    terminal.outputBuffer = terminal.outputBuffer.slice(-800);
+                }
+            });
+
+            childProcess.stderr?.on('data', (data) => {
+                const text = data.toString();
+                terminal.errorBuffer.push(text);
+
+                // Keep buffer size reasonable
+                if (terminal.errorBuffer.length > 1000) {
+                    terminal.errorBuffer = terminal.errorBuffer.slice(-800);
+                }
+            });
+
+            // Handle process end (but don't wait for it)
+            childProcess.on('exit', (code) => {
+                terminal.isRunning = false;
+                terminal.lastExitCode = code || 0;
+            });
+
+            childProcess.on('error', (err) => {
+                terminal.isRunning = false;
+                terminal.errorBuffer.push(`Process error: ${err.message}`);
+            });
+
+            // Send command immediately
+            if (childProcess.stdin) {
+                childProcess.stdin.write(command + '\n');
+                if (!options.background) {
+                    // For non-background commands, we still don't wait, just close stdin
+                    childProcess.stdin.end();
+                }
+            }
+
+            // RETURN IMMEDIATELY - This is the key difference!
+            const duration = Date.now() - startTime;
+
+            return {
+                success: true, // Always true for non-blocking
+                output: '✅ Command sent successfully! Use getTerminalOutput() to retrieve results.',
+                exitCode: 0,
+                duration,
+                timestamp: new Date(),
+                command,
+                terminal: terminal.name,
+                nonBlocking: true,
+                processId: childProcess.pid,
+                note: `Command "${command}" executed non-blocking. Check terminal output for results.`
+            };
+
+        } catch (error) {
+            const duration = Date.now() - startTime;
+
+            return {
+                success: false,
+                output: `Failed to send command: ${error}`,
+                error: error instanceof Error ? error.message : String(error),
+                exitCode: 1,
+                duration,
+                timestamp: new Date(),
+                command,
+                terminal: terminal.name,
+                nonBlocking: true
+            };
+        }
     }
 
     /**

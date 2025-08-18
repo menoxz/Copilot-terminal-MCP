@@ -21,6 +21,7 @@ import { UltraTerminalManager } from './core/terminal-manager.js';
 import { CreativeLogger } from './utils/creative-logger.js';
 import { PerformanceAnalyzer } from './utils/performance-analyzer.js';
 import { registerAllTools } from './tools/index.js';
+import { workspaceProblemsTools } from './tools/workspace-problems.js';
 
 // 🎯 Detect MCP mode early
 const isMCPMode = process.env.MCP_MODE === 'true' ||
@@ -56,8 +57,6 @@ const server = new Server(
     {
         name: 'copilot-terminal-master',
         version: '1.0.0',
-    },
-    {
         capabilities: {
             tools: {},
         },
@@ -78,10 +77,10 @@ async function executeTerminalTool(name: string, args: any): Promise<any> {
             return terminalManager.deleteTerminal(args.name);
         case 'sendCommand':
             return terminalManager.sendCommand(args.name || args.terminalName, args.command, {
-                captureOutput: args.captureOutput,
-                timeoutMs: args.timeoutMs,
                 background: args.background
             });
+        case 'sendCommandAndWait':
+            return terminalManager.sendCommandAndWait(args.name || args.terminalName, args.command, args.waitMs);
         case 'cancelCommand':
             return terminalManager.cancelCommand(args.name || args.terminalName);
         case 'getTerminalState':
@@ -96,8 +95,58 @@ async function executeTerminalTool(name: string, args: any): Promise<any> {
             return terminalManager.selectOptimalTerminal(args.task, args.preferred);
         case 'getPerformanceReport':
             return analytics.generateReport();
+
+        // 🔍 WORKSPACE DIAGNOSTICS TOOLS
+        case 'getWorkspaceProblems':
+            return await executeWorkspaceTool('getWorkspaceProblems', args);
+        case 'getFileProblems':
+            return await executeWorkspaceTool('getFileProblems', args);
+        case 'getWorkspaceHealth':
+            return await executeWorkspaceTool('getWorkspaceHealth', args);
+        case 'clearDiagnosticsCache':
+            return await executeWorkspaceTool('clearDiagnosticsCache', args);
+
         default:
             throw new Error(`Unknown tool: ${name}`);
+    }
+}
+
+/**
+ * 🔍 Execute workspace diagnostics tools
+ */
+async function executeWorkspaceTool(toolName: string, args: any): Promise<any> {
+    const tool = workspaceProblemsTools.find(t => t.name === toolName);
+    if (!tool) {
+        throw new Error(`Workspace tool not found: ${toolName}`);
+    }
+
+    try {
+        // Validate input schema if present
+        if (tool.inputSchema) {
+            // Basic validation - in a real implementation you might use a schema validator
+            const schema = tool.inputSchema as any;
+            if (schema.required) {
+                for (const requiredField of schema.required) {
+                    if (args[requiredField] === undefined) {
+                        throw new Error(`Missing required parameter: ${requiredField}`);
+                    }
+                }
+            }
+        }
+
+        // Execute the tool handler
+        const result = await tool.handler(args);
+
+        // Log the execution for analytics
+        if (!isMCPMode) {
+            logger.success(`✅ Workspace tool '${toolName}' executed successfully`);
+        }
+
+        return result;
+
+    } catch (error) {
+        logger.error(`❌ Error executing workspace tool ${toolName}:`, error);
+        throw error;
     }
 }
 

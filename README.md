@@ -262,4 +262,4 @@ If this project helped you, please consider giving it a star! ⭐
 
 **🚀 Transform your development workflow today!**
 
-Made with ❤️ by [Jean-Luc KOUMAGLO](https://github.com/menoxz)
+Made with ❤️ by [menoxz](https://github.com/menoxz)
